@@ -3,7 +3,7 @@ import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import devConfig from './dev'
 import prodConfig from './prod'
 
-import ComponentsPlugin from 'unplugin-vue-components/webpack'
+import Components from 'unplugin-vue-components/vite'
 import NutUIResolver from '@nutui/auto-import-resolver'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
@@ -42,12 +42,13 @@ export default defineConfig<'vite'>(async (merge, { command, mode }) => {
           },
         },
       },
-      webpackChain(chain) {
-        chain.plugin('unplugin-vue-components').use(
-          ComponentsPlugin({
+      compiler: {
+        type: 'vite',
+        vitePlugins: [
+          Components({
             resolvers: [NutUIResolver({ taro: true })],
-          })
-        )
+          }),
+        ],
       },
     },
     h5: {
@@ -72,12 +73,13 @@ export default defineConfig<'vite'>(async (merge, { command, mode }) => {
           },
         },
       },
-      webpackChain(chain) {
-        chain.plugin('unplugin-vue-components').use(
-          ComponentsPlugin({
+      compiler: {
+        type: 'vite',
+        vitePlugins: [
+          Components({
             resolvers: [NutUIResolver({ taro: true })],
-          })
-        )
+          }),
+        ],
       },
     },
     rn: {
